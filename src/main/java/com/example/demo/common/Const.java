@@ -7,7 +7,5 @@ public class Const {
    public interface Role{
         int ROLE_ADMIN = 1; //管理员
         int ROLE_CUSTOMER = 0;//普通用户
-        Stirng code;
-        Stirng cod;
     }
 }
