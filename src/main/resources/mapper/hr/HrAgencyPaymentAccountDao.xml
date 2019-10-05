@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.modules.hr.dao.HrAgencyPaymentAccountDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.example.demo.modules.hr.entity.HrAgencyPaymentAccountEntity" id="hrAgencyPaymentAccountMap">
+        <result property="id" column="id"/>
+        <result property="agencyId" column="agency_id"/>
+        <result property="accountType" column="account_type"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankAccountCode" column="bank_account_code"/>
+        <result property="accountStatus" column="account_status"/>
+        <result property="newest" column="newest"/>
+
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+
+    </resultMap>
+
+
+
+    <!-- 按机构ID修改是不是最新新状态 -->
+    <update id="updateNewestByAgencyId" parameterType="map">
+		update hr_agency_payment_account set `newest` = #{newest} where `agency_id` = #{agency_id}
+	</update>
+
+</mapper>

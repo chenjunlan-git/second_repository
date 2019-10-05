@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.modules.hr.dao.HrAgencyDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.example.demo.modules.hr.entity.HrAgencyEntity" id="hrAgencyMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="agencyCode" column="agency_code"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="socialCreditCode" column="social_credit_code"/>
+        <result property="address" column="address"/>
+        <result property="website" column="website"/>
+        <result property="type" column="type"/>
+        <result property="agencyType" column="agency_type"/>
+        <result property="agencyRankSchool" column="agency_rank_school"/>
+        <result property="agencyRankHospital" column="agency_rank_hospital"/>
+        <result property="agencyNature" column="agency_nature"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <!--<result property="taxpayerIdeNumber" column="taxpayer_ide_number"/>-->
+        <result property="agencyPhone" column="agency_phone"/>
+        <result property="agencyFax" column="agency_fax"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="legalPersonUrl" column="legal_person_url"/>
+        <result property="businessLicenseUrl" column="business_license_url"/>
+
+
+        <!--加载区域机构树用-->
+        <result property="aId" column="a_id"/>
+        <result property="aName" column="a_name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="level" column="level"/>
+
+
+        <!--父机构ID-->
+        <result property="parentAgencyId" column="parent_agency_id"/>
+
+
+
+    </resultMap>
+
+
+
+    <resultMap type="com.example.demo.modules.hr.entity.HrAgencyEntity" id="hrAgencyAreaMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="agencyCode" column="agency_code"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="socialCreditCode" column="social_credit_code"/>
+        <result property="address" column="address"/>
+        <result property="website" column="website"/>
+        <result property="type" column="type"/>
+        <result property="agencyType" column="agency_type"/>
+        <result property="agencyRankSchool" column="agency_rank_school"/>
+        <result property="agencyRankHospital" column="agency_rank_hospital"/>
+        <result property="agencyNature" column="agency_nature"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <!--<result property="taxpayerIdeNumber" column="taxpayer_ide_number"/>-->
+        <result property="agencyPhone" column="agency_phone"/>
+        <result property="agencyFax" column="agency_fax"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="legalPersonUrl" column="legal_person_url"/>
+        <result property="businessLicenseUrl" column="business_license_url"/>
+
+
+    </resultMap>
+
+
+
+    <resultMap id="hrAgencyMapList"   type="HashMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="agencyCode" column="agency_code"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="socialCreditCode" column="social_credit_code"/>
+        <result property="address" column="address"/>
+        <result property="website" column="website"/>
+        <result property="type" column="type"/>
+        <result property="agencyType" column="agency_type"/>
+        <result property="agencyRankSchool" column="agency_rank_school"/>
+        <result property="agencyRankHospital" column="agency_rank_hospital"/>
+        <result property="agencyNature" column="agency_nature"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <!--<result property="taxpayerIdeNumber" column="taxpayer_ide_number"/>-->
+        <result property="agencyPhone" column="agency_phone"/>
+        <result property="agencyFax" column="agency_fax"/>
+        <result property="serviceId" column="service_id"/>
+        <result property="legalPersonUrl" column="legal_person_url"/>
+        <result property="businessLicenseUrl" column="business_license_url"/>
+        <result property="registrId" column="registr_id"/>
+
+        <!--机构所在地-->
+        <result property="provinceName" column="provinceName"/>
+        <result property="cityName" column="cityName"/>
+        <result property="areaName" column="areaName"/>
+
+        <!--父机构ID-->
+        <result property="parentAgencyId" column="parent_agency_id"/>
+
+    </resultMap>
+    <update id="updateDelFlag">
+        update hr_agency
+        set del = 1
+        where id In (
+            <foreach collection="ids" index="index" item="id" separator=",">
+                #{id,jdbcType=INTEGER}
+            </foreach>
+        )
+    </update>
+    <select id="queryList" resultType="map">
+        select a.*,p.province AS provinceName,c.name AS cityName,d.area AS areaName from hr_agency a
+        join sys_province p on a.province = p.province_id
+        join sys_city c on a.city = c.city_id
+        join sys_area d on a.area = d.area_id
+        <where>
+            a.del=0 AND a.id IN(
+            <foreach collection="agencyIds" index="index" item="id" open="(" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+            )
+            <if test="key != null and key != ''">
+                AND(
+                a.name like concat(concat('%',#{key}),'%')
+                or a.agency_code like concat(concat('%',#{key}),'%')
+                or a.address like concat(concat('%',#{key}),'%')
+                or a.legal_person like concat(concat('%',#{key}),'%')
+                )
+            </if>
+            <if test="province != null and province != ''">
+                AND a.province = #{province}
+            </if>
+            <if test="area != null and area != ''">
+                AND a.area = #{area}
+            </if>
+            <if test="city != null and city != ''">
+                AND a.city = #{city}
+            </if>
+            <if test="agencyType != null and agencyType != ''">
+               AND a.agencyType = #{agencyType}
+            </if>
+        </where>
+        ORDER BY id DESC
+        limit #{offset},#{limit}
+    </select>
+    <select id="queryTotal" resultType="java.lang.Integer">
+        select count(*) from hr_agency a
+        join sys_province p on a.province = p.province_id
+        join sys_city c on a.city = c.city_id
+        join sys_area d on a.area = d.area_id
+        <where>
+            a.del=0 AND a.id IN(
+            <foreach collection="agencyIds" index="index" item="id" open="(" separator="," close=")">
+                #{id,jdbcType=BIGINT}
+            </foreach>
+            )
+            <if test="key != null and key != ''">
+                AND(
+                a.name like concat(concat('%',#{key}),'%')
+                or a.agency_code like concat(concat('%',#{key}),'%')
+                or a.address like concat(concat('%',#{key}),'%')
+                or a.legal_person like concat(concat('%',#{key}),'%')
+                )
+            </if>
+            <if test="province != null and province != ''">
+                AND a.province = #{province}
+            </if>
+            <if test="area != null and area != ''">
+                AND a.area = #{area}
+            </if>
+            <if test="city != null and city != ''">
+                AND a.city = #{city}
+            </if>
+            <if test="agencyType != null and agencyType != ''">
+                AND a.agencyType = #{agencyType}
+            </if>
+        </where>
+    </select>
+</mapper>
