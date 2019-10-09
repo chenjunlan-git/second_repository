@@ -105,6 +105,7 @@
         <result property="parentAgencyId" column="parent_agency_id"/>
 
     </resultMap>
+
     <update id="updateDelFlag">
         update hr_agency
         set del = 1
@@ -181,5 +182,13 @@
                 AND a.agencyType = #{agencyType}
             </if>
         </where>
+    </select>
+
+    <select id="newList" resultType="map" parameterType="int">
+        select DISTINCT ha.id ,ha.name
+        from bu_user_agency hua
+        join hr_agency ha ON hua.agency_id=ha.id
+        where hua.user_id = #{userId}
+        ORDER BY ha.name ASC
     </select>
 </mapper>

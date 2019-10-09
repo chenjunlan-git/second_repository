@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.modules.sys.dao.SysUserDao">
+
+    <resultMap id="userFullMap" type="com.example.demo.modules.sys.entity.SysUserEntity">
+        <id property="userId" column="user_id"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="salt" column="salt"></result>
+        <result property="email" column="email"></result>
+        <result property="mobile" column="mobile"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="realName" column="real_name"></result>
+        <result property="employeeNumber" column="employee_number"></result>
+        <collection property="sysRoleEntities" ofType="com.example.demo.modules.sys.entity.SysRoleEntity">
+            <id property="roleId" column="role_id"></id>
+            <result property="roleName" column="role_name"></result>
+            <association property="organizationEntity"
+                         javaType="com.example.demo.modules.sys.entity.SysOrganizationEntity">
+                <id property="orgId" column="org_id"></id>
+                <result property="orgName" column="org_name"></result>
+            </association>
+        </collection>
+    </resultMap>
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="string">
+		select m.perms from sys_user_role ur
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
+		where ur.user_id = #{userId}
+	</select>
+
+    <!-- 查询用户的所有菜单ID -->
+    <select id="queryAllMenuId" resultType="long">
+		select distinct rm.menu_id from sys_user_role ur
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+		where ur.user_id = #{userId}
+	</select>
+
+    <select id="queryByUserName" resultType="com.example.demo.modules.sys.entity.SysUserEntity">
+		select * from sys_user where username = #{username}
+	</select>
+
+    <select id="queryOrgRoleByUserName" resultType="int">
+		SELECT COUNT(*)
+		FROM sys_user su
+		LEFT JOIN sys_user_role sur ON su.user_id = sur.user_id
+		LEFT JOIN sys_role sr ON sur.role_id = sr.role_id
+		WHERE su.username = #{username} AND sr.role_name = "机构管理员"
+	</select>
+
+
+    <!-- 查询所有的用户，用户对应的权限，权限对应的部门组织 -->
+    <select id="findAllUsers" resultMap="userFullMap">
+        SELECT a.*, c.* FROM sys_user a
+        LEFT JOIN sys_user_role b ON a.user_id = b.user_id
+        LEFT JOIN sys_role c ON b.role_id = c.role_id
+        LEFT JOIN sys_org_role d ON c.role_id = d.role_id
+        LEFT JOIN sys_organization e ON d.org_id = e.org_id
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </select>
+
+    <!--由cityId 查询 负责该区的领导人用户信息-->
+    <select id="queryUserByCity" resultType="com.example.demo.modules.sys.entity.SysUserEntity">
+
+
+			SELECT t.* FROM (
+			SELECT a.*,c.manage_flag ,  e.city  FROM sys_user a
+			LEFT JOIN sys_user_role b ON a.user_id = b.user_id
+			LEFT JOIN sys_role c ON b.role_id = c.role_id 		LEFT JOIN sys_org_role d ON c.role_id = d.role_id
+			LEFT JOIN sys_organization e ON d.org_id = e.org_id
+			) t  WHERE  t.city = #{city} AND  t.manage_flag = 1
+
+
+	</select>
+
+
+    <!-- //通过组织的ID，找其父组织对应的所有系统用户-->
+    <select id="queryUserByOrgId" resultType="com.example.demo.modules.sys.entity.SysUserEntity">
+
+
+        SELECT t.* FROM (
+        SELECT a.*,c.manage_flag, d.org_id FROM sys_user a
+        LEFT JOIN sys_user_role b ON a.user_id = b.user_id
+        LEFT JOIN sys_role c ON b.role_id = c.role_id LEFT JOIN sys_org_role d ON c.role_id = d.role_id
+        ) t WHERE t.status=1 AND t.manage_flag = 1 AND t.org_id IN (
+        <!--
+        SELECT parent_id from sys_organization where FIND_IN_SET(org_id,getParList(#{orgId}))
+        UNION ALL
+        SELECT #{orgId}
+        -->
+        SELECT org_id from sys_organization where FIND_IN_SET(org_id,getParList(#{orgId}))
+        ) ;
+
+
+    </select>
+
+    <select id="queryCurrentOrgManagerByOrgId" resultType="com.example.demo.modules.sys.entity.SysUserEntity">
+
+        SELECT u.* FROM sys_user u ,sys_org_role o, sys_role r, sys_user_role ur
+        WHERE u.user_id = ur.user_id AND o.org_id = #{orgId}
+        AND o.role_id = r.role_id AND r.manage_flag = #{manageFlag}
+        AND ur.role_id = r.role_id
+
+    </select>
+
+    <select id="queryMobilePhonesByUserId" resultType="string">
+        SELECT mobile FROM sys_user
+        WHERE user_id IN(
+        <foreach collection="userIds" item="id" index="index" separator="," >
+            #{id,jdbcType=BIGINT}
+        </foreach>
+        )
+    </select>
+
+</mapper>
