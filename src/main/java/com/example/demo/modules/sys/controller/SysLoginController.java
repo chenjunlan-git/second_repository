@@ -1,5 +1,6 @@
 package com.example.demo.modules.sys.controller;
 
+import com.example.demo.common.annotation.SysLog;
 import com.example.demo.common.utils.R;
 import com.example.demo.modules.sys.entity.SysUserEntity;
 import com.example.demo.modules.sys.form.SysLoginFrom;
@@ -53,6 +54,7 @@ public class SysLoginController {
      * @param from
      * @return
      */
+    @SysLog("用户登录")
     @PostMapping("sys/login")
     public Map<String,Object> Login(@RequestBody SysLoginFrom from){
         String captchaStr = from.getCaptcha();
