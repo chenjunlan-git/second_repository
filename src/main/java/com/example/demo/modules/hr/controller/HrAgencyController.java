@@ -79,8 +79,4 @@ public class HrAgencyController extends AbstractController {
         return R.ok();
     }
 
-    @GetMapping("list")
-    public R AgencyList(Integer userId){
-        return hrAgencyService.newList(userId);
-    }
 }

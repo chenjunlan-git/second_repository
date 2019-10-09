@@ -58,25 +58,5 @@ public class HrAgencyServiceImpl extends ServiceImpl<HrAgencyDao,HrAgencyEntity>
 
     }
 
-    @Override
-    public R newList(Integer userId) {
-        List<Map> list = baseMapper.newList(userId);
-
-        List<Map<Integer,String>> agencyList = new ArrayList<Map<Integer,String>>();
-        for(Map obj : list){
-            if (list==null || list.isEmpty()){
-                continue;
-            }
-            Map map = new HashMap<Integer,String>();
-            if (obj.get("name") != null){
-                map.put("agencyId",obj.get("id"));
-                map.put("value",obj.get("name"));
-            }
-            agencyList.add(map);
-        }
-
-        return R.ok().put("list",agencyList);
-    }
-
 
 }

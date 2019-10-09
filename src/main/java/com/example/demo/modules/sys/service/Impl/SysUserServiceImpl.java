@@ -12,7 +12,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Override
     public SysUserEntity queryByUsername(String username) {
-        SysUserEntity userEntity = baseMapper.queryByUsername(username);
+        SysUserEntity userEntity = baseMapper.queryByUserName(username);
         return userEntity;
     }
 

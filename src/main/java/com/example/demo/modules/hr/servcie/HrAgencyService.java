@@ -35,5 +35,4 @@ public interface HrAgencyService extends IService<HrAgencyEntity> {
      */
     R selectAgency(Integer id);
 
-    R newList(Integer userId);
 }
