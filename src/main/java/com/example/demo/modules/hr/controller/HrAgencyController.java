@@ -31,7 +31,7 @@ public class HrAgencyController extends AbstractController {
     @Autowired
     private HrAgencyService hrAgencyService;
 
-    @RequestMapping("/list")
+    @RequestMapping ("/list")
     @RequiresPermissions("hr:hragency:list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("agencyIds", getUser().getAgencyIds());
@@ -49,7 +49,6 @@ public class HrAgencyController extends AbstractController {
      * @return
      */
     @RequestMapping("info/{id}")
-    @RequiresPermissions("hr:hragency:info")
     public R info(@PathVariable("id") Integer id){
         return hrAgencyService.selectAgency(id);
     }

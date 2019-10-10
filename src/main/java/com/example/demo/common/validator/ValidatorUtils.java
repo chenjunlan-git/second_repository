@@ -1,6 +1,7 @@
 package com.example.demo.common.validator;
 
-import com.example.demo.common.XfktechException;
+import com.example.demo.common.xss.XfktechException;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;

@@ -1,7 +1,8 @@
-package com.example.demo.common;
+package com.example.demo.modules.mmall.common;
 
 
 
+import com.example.demo.modules.mmall.common.ResponseCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

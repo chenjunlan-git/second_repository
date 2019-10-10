@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.modules.mmall.common;
 
 /**
  * Created by geely

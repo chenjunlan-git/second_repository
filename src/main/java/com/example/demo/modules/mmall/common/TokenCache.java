@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.modules.mmall.common;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

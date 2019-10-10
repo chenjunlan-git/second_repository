@@ -1,7 +1,7 @@
 package com.example.demo.modules.sys.oauth2;
 
 
-import com.example.demo.common.XfktechException;
+import com.example.demo.common.xss.XfktechException;
 
 import java.security.MessageDigest;
 import java.util.UUID;

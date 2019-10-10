@@ -1,7 +1,8 @@
 package com.example.demo.modules.sys.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.Date;
 @Data
 @TableName("sys_captcha")
 public class SysCaptchaEntity implements Serializable {
-    @TableField
+    @TableId(type = IdType.INPUT)
     private String uuid;
     /**
      * 验证码
