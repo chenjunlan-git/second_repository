@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.modules.sys.util.DateUtils;
+import com.example.demo.modules.mmall.util.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
