@@ -2,12 +2,13 @@ package com.example.demo.modules.mmall.entiry;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -39,6 +40,12 @@ public class UserEntity implements Serializable {
      */
     private String password;
 
+    /**
+     * salt
+     */
+    @JsonIgnore
+    private String salt;
+
     private String email;
 
     private String phone;
@@ -61,12 +68,12 @@ public class UserEntity implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 最后一次更新时间
      */
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
 }
