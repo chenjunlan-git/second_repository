@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.modules.bu.dao.BuImprestDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.example.demo.modules.bu.entity.BuImprestEntity" id="buImprestMap">
+        <result property="id" column="id"/>
+        <result property="agencyId" column="agency_id"/>
+        <result property="agencyContractId" column="agency_contract_id"/>
+        <result property="payoffYearMonth" column="payoff_year_month"/>
+        <result property="imprestContent" column="imprest_content"/>
+        <result property="subtotalImprest" column="subtotal_imprest"/>
+        <result property="payoffType" column="payoff_type"/>
+        <result property="payoffStatus" column="payoff_status"/>
+        <result property="invoiceFlag" column="invoice_flag"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="updatePayoffStatusById" >
+        update bu_imprest set payoff_status = #{payoffStatus} where id = #{id}
+    </select>
+
+</mapper>

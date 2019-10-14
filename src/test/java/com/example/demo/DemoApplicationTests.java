@@ -30,7 +30,7 @@ public class DemoApplicationTests {
 		System.out.println(dateTime);
 		Long SystemTime = System.currentTimeMillis();
 		System.out.println(SystemTime);
-		Date date =DateUtils.addDateMinutes(new Date(), 5);
+		Date date = DateUtils.addDateMinutes(new Date(), 5);
 		System.out.println(date);
 	}
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.modules.mmall.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.modules.mmall.entiry.UserEntity">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="question" property="question"/>
+        <result column="answer" property="answer"/>
+        <result column="role" property="role"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <update id="updatePasswordByUsername">
+        update mmall_user
+        set password = #{passwordNew}
+        where username = #{username}
+    </update>
+
+    <select id="queryPassword" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where username=#{username}
+        and password=#{password}
+    </select>
+
+    <select id="queryLogin" resultType="com.example.demo.modules.mmall.entiry.UserEntity">
+        select * from mmall_user
+        where username=#{username}
+    </select>
+
+    <select id="checkUsername" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where username=#{username}
+    </select>
+
+    <select id="checkEmail" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where email=#{email}
+    </select>
+
+    <select id="queryAnsterByusername" resultType="java.lang.String">
+        select question from mmall_user
+        where username=#{username}
+    </select>
+
+    <select id="checkAnswer" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where username=#{username}
+        and question=#{question}
+        and answer=#{answer}
+    </select>
+
+    <select id="queryUserEntityByUsername" resultType="com.example.demo.modules.mmall.entiry.UserEntity">
+        select * from mmall_user
+        where username = #{username}
+    </select>
+
+    <select id="checkPassword" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where username = #{username}
+        and password = #{passwordOld}
+    </select>
+
+    <select id="selectEmail" resultType="java.lang.Integer">
+        select count(1) from mmall_user
+        where id != #{id}
+        and email = #{email}
+    </select>
+
+</mapper>
