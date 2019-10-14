@@ -1,6 +1,6 @@
 package com.example.demo.common.validator;
 
-import com.example.demo.common.XfktechException;
+import com.example.demo.common.xss.XfktechException;
 import org.apache.commons.lang.StringUtils;
 
 /**

@@ -1,7 +1,6 @@
 package com.example.demo.modules.sys.service.Impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.example.demo.common.XfktechException;
 import com.example.demo.modules.sys.dao.SysUserDao;
 import com.example.demo.modules.sys.entity.SysUserEntity;
 import com.example.demo.modules.sys.service.SysUserService;
@@ -12,7 +11,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Override
     public SysUserEntity queryByUsername(String username) {
-        SysUserEntity userEntity = baseMapper.queryByUsername(username);
+        SysUserEntity userEntity = baseMapper.queryByUserName(username);
         return userEntity;
     }
 

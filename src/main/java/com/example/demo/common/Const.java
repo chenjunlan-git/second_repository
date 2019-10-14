@@ -9,3 +9,4 @@ public class Const {
         int ROLE_CUSTOMER = 0;//普通用户
     }
 }
+

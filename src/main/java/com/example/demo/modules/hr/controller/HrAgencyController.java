@@ -13,6 +13,7 @@ import com.example.demo.modules.hr.entity.HrAgencyEntity;
 import com.example.demo.modules.hr.servcie.HrAgencyContractService;
 import com.example.demo.modules.hr.servcie.HrAgencyService;
 import com.example.demo.modules.sys.controller.AbstractController;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,8 @@ public class HrAgencyController extends AbstractController {
     @Autowired
     private HrAgencyService hrAgencyService;
 
-    @GetMapping("/list")
+    @RequestMapping ("/list")
+    @RequiresPermissions("hr:hragency:list")
     public R list(@RequestParam Map<String, Object> params) {
         params.put("agencyIds", getUser().getAgencyIds());
 
@@ -78,4 +80,5 @@ public class HrAgencyController extends AbstractController {
 
         return R.ok();
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.demo.modules.sys.util;
+package com.example.demo.modules.mmall.util;
 
 
 import java.security.MessageDigest;

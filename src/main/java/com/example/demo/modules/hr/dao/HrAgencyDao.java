@@ -15,4 +15,6 @@ public interface HrAgencyDao extends BaseMapper<HrAgencyEntity> {
     int queryTotal(Map<String, Object> map);
 
     void updateDelFlag(@Param("ids") Integer[] ids);
+
+    List<Map> newList(Integer userId);
 }

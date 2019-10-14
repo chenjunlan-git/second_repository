@@ -34,4 +34,5 @@ public interface HrAgencyService extends IService<HrAgencyEntity> {
      * @return
      */
     R selectAgency(Integer id);
+
 }
